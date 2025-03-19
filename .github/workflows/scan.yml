@@ -18,6 +18,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Install Docker Scout
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh
+
       - name: Scan Docker Image with Docker Scout
         run: |
-          docker scout quick thanosgvrd/sdi2100022-image:latest
+          ~/.docker/cli-plugins/docker-scout quick thanosgvrd/sdi2100022-image:latest
