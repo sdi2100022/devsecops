@@ -18,11 +18,14 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Install Docker Scout
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh
+      - name: Login to Docker Hub
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-      - name: Scan Docker Image for Vulnerabilities
+      - name: Scan Docker Image with Docker Scout
         run: |
-          ~/.docker/cli-plugins/docker-scout cves thanosgvrd/sdi2100022-image:latest
+          docker scout quick thanosgvrd/sdi2100022-image:latest
+
 
